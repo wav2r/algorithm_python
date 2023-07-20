@@ -1,0 +1,41 @@
+from collections import defaultdict
+def solution(want, number, discount):
+    answer = 0
+    
+    def change(now, remove, add): #없는 물건의 경우 -1
+        if remove != -1:
+            if now[remove] > 0:
+                now[remove] -= 1
+        if add != -1:
+            now[add] += 1
+        return now
+    
+    def check(arr):
+        for i in range(len(number)):
+            if arr[i] < number[i]:
+                return False
+        return True
+    
+    basket = [0 for _ in range(len(want))]
+    item = defaultdict(int)
+    for i, val in enumerate(want):
+        item[val] = i
+        
+    left = -1
+    right = 9
+    
+    for i in discount[:10]:
+        if i in item:
+            basket[item[i]] += 1
+    if check(basket):
+        answer += 1
+            
+    for i in range(len(discount) - 10):
+        left, right = left + 1, right + 1
+        
+        basket = change(basket, item[discount[left]] if discount[left] in want else -1, item[discount[right]] if discount[right] in want else -1)
+            
+        if check(basket):
+            answer += 1
+            
+    return answer

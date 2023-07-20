@@ -1,0 +1,53 @@
+'''
+두 개의 단어 begin, target과 단어의 집합 words가 매개변수로 주어질 때, 
+최소 몇 단계의 과정을 거쳐 begin을 target으로 변환할 수 있는지 return 
+
+예를 들어 begin이 "hit", target가 "cog", words가 ["hot","dot","dog","lot","log","cog"]라면 
+"hit" -> "hot" -> "dot" -> "dog" -> "cog"와 같이 4단계를 거쳐 변환
+
+begin	target	words	return
+"hit"	"cog"	["hot", "dot", "dog", "lot", "log", "cog"]	4
+'''
+def solution(begin, target, words):
+    from collections import deque
+    from collections import defaultdict
+    
+    def diff(a, b):
+        temp = 0
+        for i in range(len(a)):
+            if a[i] != b[i]:
+                temp += 1
+        return temp
+    
+    def search_idx(s):
+        for idx, word in enumerate(words):
+            if word == s:
+                return idx
+        return -1
+    answer = -1
+    words = words + [begin]
+    
+    goal = search_idx(target)
+    if goal == -1:
+        return 0
+    
+    change = defaultdict(list)
+    for word1 in words:
+        for idx, word2 in enumerate(words):
+            if diff(word1, word2) == 1:
+                change[word1].append(idx)
+    q = deque()
+    chk = [False for _ in range(len(words)-1)] + [True]
+    
+    q.append((begin, chk, 0))
+    
+    while q:
+        now, chk, cnt = q.popleft()
+        if now == target:
+            return cnt
+        for i in change[now]:
+            if not chk[i]:
+                q.append((words[i], chk[:i]+[True]+chk[i+1:], cnt + 1))
+            
+        
+    return answer

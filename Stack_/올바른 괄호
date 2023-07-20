@@ -1,0 +1,17 @@
+def solution(s):
+    is_collect = True
+    
+    stk = []
+    for ch in s:
+        if ch == "(":
+            stk.append(1)
+        else:
+            if stk:
+                stk.pop()
+            else:
+                is_collect = False
+                break
+                
+    if stk:
+        is_collect = False
+    return is_collect

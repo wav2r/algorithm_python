@@ -1,0 +1,22 @@
+'''
+https://school.programmers.co.kr/learn/courses/30/lessons/43164
+'''
+
+def solution(tickets):
+    from collections import defaultdict
+    from collections import deque
+    
+    
+    tickets.sort()
+    queue = deque()
+    queue.append((["ICN"], "ICN", []))
+    
+    while queue:
+        goal, now, used = queue.popleft()
+        if len(used) == len(tickets):
+            return goal
+        for idx, ticket in enumerate(tickets):
+            if ticket[0] == now and idx not in used:
+                queue.append((goal+[ticket[1]], ticket[1], used + [idx]))
+                
+    return goal

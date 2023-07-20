@@ -1,0 +1,36 @@
+'''
+숫자가 담긴 배열 numbers, 
+타겟 넘버 target이 매개변수로 주어질 때 
+numbers의 숫자를 적절히 더하고 빼서 타겟 넘버를 만드는 방법의 수를 return
+numbers	target	return
+[1, 1, 1, 1, 1]	3	5
+'''
+
+def solution(numbers, target):
+    global answer
+    answer = 0
+    
+    def all_true(arr):
+        for e in arr:
+            if e == False:
+                return False
+        return True
+    
+    def dfs(chk, now, cnt):
+        global answer
+        print(chk, now, cnt)
+        if cnt == len(numbers):
+            if now == target:
+                answer += 1
+        
+        for idx, num in enumerate(numbers):
+            if not chk[idx] and chk[idx-1]:
+                chk[idx] = True
+                dfs(chk, now + num, cnt + 1)
+                dfs(chk, now - num, cnt + 1)
+                chk[idx] = False
+            
+    chk = [True] + [False for _ in range(len(numbers))]
+    dfs(chk, 0, 0)
+    
+    return answer
