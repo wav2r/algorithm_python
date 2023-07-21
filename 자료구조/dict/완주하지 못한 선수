@@ -1,0 +1,20 @@
+'''
+dict 자료형
+'''
+def solution(participant, completion):
+    answer = ''
+    name = {}
+    for li in participant:
+        if li in name:
+            name[li] += 1
+        else:
+            name[li] = 1
+    
+    for li in completion:
+        if name[li] == 1:
+            name.pop(li)
+        else:
+            name[li] -= 1
+        
+    answer = next(iter(name))
+    return answer

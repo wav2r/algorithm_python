@@ -1,0 +1,34 @@
+def solution(n, edge):
+    from collections import deque
+    answer = 0
+    
+    #rel : 간선 정보 저장
+    rel = [list() for _ in range(n)]
+    for line in edge:
+        rel[line[0]-1].append(line[1]-1)
+        rel[line[1]-1].append(line[0]-1)
+
+    #dist : 1부터 n노드까지의 거리 저장
+    dist = [-1 for _ in range(n)]
+    dist[0] = 0
+    
+    queue = deque()
+    queue.append((0, 1))
+
+    #최단 거리를 구해 저장
+    while queue:    
+        point, d = queue.popleft()
+
+        for move_point in rel[point]:
+
+            if dist[move_point] == -1:
+                dist[move_point] = d
+                queue.append((move_point, d+1))
+                
+    max_value = max(dist)
+    
+    #max_value count
+    for d_node in dist:
+        if d_node == max_value: answer += 1
+    
+    return answer

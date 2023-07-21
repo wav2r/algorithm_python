@@ -1,0 +1,38 @@
+# 시간 오래걸림
+# https://school.programmers.co.kr/learn/courses/30/lessons/42839
+
+def solution(numbers):
+    global isPrime
+    def DFS(numbers, nums, stack, visit):
+        if stack:
+            nums.add(int("".join(stack)))
+
+        for i in range(len(numbers)):
+            if not visit[i]:
+                visit[i] = True
+                stack.append(numbers[i])
+                DFS(numbers, nums, stack, visit)
+                visit[i] = False
+                stack.pop()
+
+    answer = 0
+    max_value = 9999999
+    isPrime = [False] + [False] + [True] * (max_value-2)
+
+    for i in range(2, max_value):
+        if isPrime[i]:
+            temp = 2
+            while i * temp < max_value:
+                isPrime[i * temp] = False
+                temp += 1
+
+    stack = []
+    nums = set()
+    visit = [False] * len(numbers)
+
+    DFS(numbers, nums, stack, visit)
+
+    for num in nums:
+        if isPrime[num]:
+            answer += 1
+    return answer

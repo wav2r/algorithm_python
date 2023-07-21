@@ -1,0 +1,22 @@
+def solution(topping):
+    answer = 0
+    
+    type_set = set()
+    left = [0 for _ in range(len(topping))]
+    right = [0 for _ in range(len(topping))]
+    
+    for i in range(len(topping)):
+        type_set.add(topping[i])
+        left[i] = len(type_set)
+        
+    type_set.clear()
+    
+    for i in range(len(topping)-1,-1, -1):
+        type_set.add(topping[i])
+        right[i] = len(type_set)
+    
+    for i in range(len(topping)-1):
+        if left[i] == right[i+1]:
+            answer += 1
+            
+    return answer

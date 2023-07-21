@@ -1,0 +1,28 @@
+'''
+    완전 탐색
+    필요도가 낮을 시 break
+'''
+
+def solution(k, dungeons):
+    answer = 0
+    
+    max_value = 0
+    q = []
+    q.append((k, [False for _ in range(len(dungeons))], 0))
+    while q:
+        now, chk, cnt = q.pop()
+        
+        if cnt >= len(dungeons):
+            return len(dungeons)
+        
+        for idx, dungeon in enumerate(dungeons):
+            
+            if dungeon[0] > now:
+                max_value = max(max_value, cnt)
+                continue
+            
+            if not chk[idx]:
+                q.append((now - dungeon[1], chk[:idx] + [True] + chk[idx+1:], cnt + 1))
+                
+            
+    return max_value

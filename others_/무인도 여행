@@ -1,0 +1,53 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/154540
+
+def solution(maps):
+    
+    from collections import deque
+    
+    dy = (1, 0, -1, 0)
+    dx = (0, 1, 0, -1)
+    
+    def is_valid(y, x):
+        return 0<=y<M and 0<=x<N
+    
+    answer = []
+    N = len(maps[0])
+    M = len(maps)
+    
+    maps_arr = [[0] * (N+1) for _ in range(M+1)]
+    
+    for y in range(M):
+        for x in range(N):
+            if maps[y][x] != 'X':
+                maps_arr[y][x] = int(maps[y][x])
+     
+    def cal_area(y, x):
+        area = maps_arr[y][x]
+        maps_arr[y][x] = 0
+        
+        q = deque()
+        q.append((y, x))
+
+        while q:
+            y, x = q.popleft()
+            for k in range(4):
+                ny = y + dy[k]
+                nx = x + dx[k]
+                
+                if maps_arr[ny][nx] != 0 and is_valid(ny, nx):
+                    area += maps_arr[ny][nx]
+                    maps_arr[ny][nx] = 0
+                    q.append((ny, nx))
+        
+        
+        return area
+                
+    for y in range(M):
+            for x in range(N):
+                if maps_arr[y][x]:
+                    answer.append(cal_area(y, x))
+    if answer:
+        answer.sort()
+    else:
+        answer.append(-1)
+    return answer

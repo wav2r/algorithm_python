@@ -1,0 +1,22 @@
+def solution(n):
+    
+    def jump(n):
+        if cache[n]:
+            return cache[n]
+        cache[n] = jump(n-2) + jump(n-1)
+        return cache[n]
+    
+    answer = 0
+    
+    if n == 1:
+        return 1
+    
+    cache = [0] * (n+1)
+    
+    cache[1] = 1
+    cache[2] = 2
+    
+    answer = jump(n)
+    answer = answer % 1234567
+
+    return answer

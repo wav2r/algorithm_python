@@ -1,0 +1,35 @@
+def solution(arr):
+    from collections import defaultdict
+    
+    # 2이상의 수를 소인수분해 => (약수, 갯수) list 형태로 담아 반환
+    def divide_number(n:int) -> list:
+        numbers = defaultdict(int)
+        if n == 1:
+            numbers[1] = 1
+        
+        i = 2
+        while n > 1:
+            while n % i == 0:
+                numbers[i] += 1
+                n = n // i
+            i += 1
+        return numbers
+    
+    multiple = defaultdict(int)
+    
+    for n in arr:
+        #각 수의 약수의 갯수를 multiple에 반영함
+        div_dict = divide_number(n)
+
+        for div in div_dict:
+            if div in multiple:
+                multiple[div] = max(div_dict[div], multiple[div])
+            else:
+                multiple[div] = div_dict[div]
+
+    #약수를 모두 곱하여 return
+    tot = 1
+    for div in multiple:
+        tot *= div ** multiple[div]
+        
+    return tot

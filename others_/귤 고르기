@@ -1,0 +1,16 @@
+def solution(k, tangerine):
+    answer = 0
+    N = max(tangerine)
+    
+    size_arr = [0 for n in range(N+1)]
+
+    for s in tangerine:
+        size_arr[s] += 1
+    size_arr.sort(reverse=True)
+
+    for num in size_arr:
+        if k <= 0:
+            break
+        k -= num
+        answer += 1
+    return answer

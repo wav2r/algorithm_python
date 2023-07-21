@@ -1,0 +1,21 @@
+def solution(n, k, enemy):    
+    
+    import heapq
+    
+    answer = 0
+    history = []
+    tot = 0
+    
+    for damage in enemy:
+        heapq.heappush(history, -damage)
+        tot += damage
+        
+        if tot > n: #누적된 데미지가 n을 넘었을 경우
+            if k > 0:
+                tot += heapq.heappop(history)
+                k -= 1
+            else:
+                break
+        answer += 1
+   
+    return answer

@@ -1,0 +1,35 @@
+def solution(n, cores):
+    answer = 0
+    
+    N = len(cores) #core의 갯수
+    
+    if n < N:
+        return n
+    
+    left = 1
+    right = max(cores) * n // N + 1
+    n -= N
+    
+    while left<right:
+        mid = (left + right) // 2
+        
+        capacity = n
+        for core in cores:
+            capacity -= mid // core
+        if capacity > 0:
+            left = mid + 1
+        else:
+            right = mid
+    
+    for core in cores:
+        n -= mid//core
+    
+    mid += 1
+    for idx, core in enumerate(cores):
+        if mid % core == 0:
+            n -= 1
+            if n == 0:
+                answer = idx + 1
+                break
+        
+    return answer

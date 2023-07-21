@@ -1,0 +1,23 @@
+def solution(s):
+    from collections import defaultdict
+    
+    answer = []
+    
+    s= s.replace('{', '')
+    s= s.replace('}', '')
+    
+    s = list(map(int, s.split(',')))
+    n_dict = dict()
+    
+    for i in s:
+        if i in n_dict:
+            n_dict[i] += 1
+        else:
+            n_dict[i] = 0
+    
+    n_dict = sorted(n_dict.items(), key = lambda x: x[1], reverse=True)
+    
+    for item in n_dict:
+        answer.append(item[0])
+    
+    return answer

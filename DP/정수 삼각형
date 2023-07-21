@@ -1,0 +1,10 @@
+def solution(triangle):
+    answer = 0
+    N = len(triangle)
+    
+    for line in range(N-1, 0, -1):
+        for l in range(line):
+            triangle[line-1][l] = max(triangle[line][l], triangle[line][l+1]) + triangle[line-1][l]
+
+    answer = triangle[0][0]
+    return answer

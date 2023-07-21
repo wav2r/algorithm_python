@@ -1,0 +1,19 @@
+def solution(today, terms, privacies):
+    answer = []
+    
+    def toDay(date):
+        y, m, d = list(map(int,date.split('.')))
+        return 336*y + 28*m + d
+    
+    type = dict()
+    for term in terms:
+        term = term.split()
+        type[term[0]] = int(term[1]) * 28
+        
+    todayDay = toDay(today)
+    for idx, date in enumerate(privacies):
+        temp = date.split()
+        if todayDay - toDay(temp[0]) >= type[temp[1]]:
+            answer.append(idx + 1)
+                
+    return answer

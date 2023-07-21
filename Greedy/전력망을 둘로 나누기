@@ -1,0 +1,22 @@
+def solution(n, wires):
+    from collections import defaultdict
+    
+    def chk_node(history, start, remove):
+        cnt = 1
+        for node in connect[start]:
+            if node != history and node != remove:
+                cnt += chk_node(start, node, remove)
+        return cnt
+    
+    answer = 101
+    
+    connect = defaultdict(list)
+    for wire in wires:
+        connect[wire[0]].append(wire[1])
+        connect[wire[1]].append(wire[0])
+        
+    for wire in wires:
+        a, b = chk_node(wire[0], wire[0], wire[1]), chk_node(wire[1], wire[1], wire[0])
+        answer = min(answer, abs(a-b))
+    
+    return answer

@@ -1,0 +1,28 @@
+import heapq
+'''
+우선순위 큐에 works 저장 (최대힙으로 쓰기 위해 음수로 저장함)
+
+루트 노드(가장 큰 값) -1
+
+야근 지수 계산
+
+'''
+def solution(n, works):
+
+    answer = 0
+    
+    if sum(works) < n:
+        return answer
+    
+    h = []
+    for work in works:
+        heapq.heappush(h, -work)
+        
+    while n>0:
+        temp = heapq.heappop(h) + 1
+        heapq.heappush(h, temp)
+        n -= 1 #잔여 작업량 감소
+    
+    for work in h:
+        answer += (work ** 2)
+    return answer

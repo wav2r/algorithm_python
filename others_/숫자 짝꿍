@@ -1,0 +1,26 @@
+def solution(X, Y):
+    answer = ''
+    
+    # 0~9까지 count
+    count_X = [0 for _ in range(10)]
+    count_Y = [0 for _ in range(10)]
+    
+    for number in X:
+        count_X[int(number)] += 1
+    for number in Y:
+        count_Y[int(number)] += 1
+    
+    # 9 -> 0 방향으로 더하며 숫자를 만든다
+    for i in range(9, 0, -1):
+        if count_X[i] and count_Y[i]:
+            answer += str(i)*min(count_X[i], count_Y[i])
+
+    if not answer:
+        if count_X[0] and count_Y[0]:
+            answer = '0'
+        else:
+            answer = '-1'
+    else:
+        answer += '0' * min(count_X[0], count_Y[0])        
+    
+    return answer

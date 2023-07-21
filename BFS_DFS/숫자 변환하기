@@ -1,0 +1,32 @@
+def solution(x, y, n):
+    from collections import deque
+    answer = -1
+    
+    if x == y:
+        return 0
+    
+    q = deque()
+    q.append(x)
+    
+    dist = [0] * (y+1)
+    
+    while q:
+        value = q.popleft()
+  
+        if 0<= value + n <= y and dist[value + n] == 0:
+            dist[value + n] = dist[value] + 1
+            q.append(value + n)
+        if value * 2 <= y and dist[value * 2] == 0:
+            dist[value * 2] = dist[value] + 1
+            q.append(value * 2)
+        if value * 3 <= y and dist[value * 3] == 0:
+            dist[value * 3] = dist[value] + 1
+            q.append(value * 3)
+    
+    if dist[y] == 0:
+        return -1
+    else:
+        answer = dist[y]
+        
+    return answer
+

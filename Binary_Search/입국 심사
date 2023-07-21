@@ -1,0 +1,17 @@
+def solution(n, times):
+    answer = 0
+    high = max(times) * n
+    low = min(times)
+    
+    while high >= low:
+        mid = (high + low) // 2
+        complete = 0
+        for time in times:
+            complete += mid // time
+        
+        if complete >= n:
+            answer = mid
+            high = mid -1
+        elif complete < n:
+            low = mid + 1
+    return answer

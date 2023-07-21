@@ -1,0 +1,56 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/72410
+
+def solution(new_id):
+    temp=''
+    available_char = ('-','_','.')
+    
+    #1단계
+    new_id = new_id.lower()
+    
+    #2단계
+    for ch in new_id:
+        if ch.islower() or ch.isdigit() or ch in available_char:
+            temp += ch
+            
+    new_id = temp
+    temp = ''
+    
+    #3단계
+    during_delete = False
+    is_first = True
+    
+    for ch in new_id:
+        if ch == '.':
+            if not during_delete:
+                temp += ch
+                during_delete = True
+        else:
+            temp += ch
+            during_delete = False
+    
+    # 4단계
+    if temp[0] == '.':
+        temp = temp[1:]
+    if temp[-1:] == '.':
+        temp = temp[:-1]
+    
+    new_id = temp
+    temp = ''
+    
+    #5단계
+    if not new_id:
+        new_id = 'a'
+    
+    #6단계
+    if len(new_id) >= 16:
+        new_id = new_id[:15]
+        if new_id[-1:] == '.':
+            new_id = new_id[:-1]
+    
+    #7단계
+    if len(new_id) <= 2:
+        ch = new_id[-1:]
+        l = 3 - len(new_id)
+        new_id += ch * l
+    
+    return new_id

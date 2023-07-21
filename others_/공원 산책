@@ -1,0 +1,61 @@
+def solution(park, routes):
+    
+    #공원을 벗어나는지 확인
+    def check_boundary(p :list, d :int, l :int) -> bool:
+        ny, nx = p
+        ny = ny + moving[d][0] * l
+        nx = nx + moving[d][1] * l
+        
+        return 0<=ny < M and 0<=nx <N
+    
+    #경로에 장애물이 있는지 확인
+    def check_moving(p :list, d :int, l :int) -> bool:
+        ny, nx = p
+        for _ in range(l):
+            ny = ny + moving[d][0]
+            nx = nx + moving[d][1]
+            
+            if parkMap[ny][nx] == 1:
+                continue
+            #장애물 발견 시 False 반환
+            return False
+        return True
+    
+    #현재 지점 / 이동 방향 / 이동 거리를 받아오고 움직일 지점을 return 
+    def move(now :list, d :int, l :int) -> list:
+        if d == 0:
+            now[0] -= l
+        if d == 1:
+            now[0] += l
+        if d == 2:
+            now[1] -= l
+        if d == 3:
+            now[1] += l
+        return now
+
+    
+    direction = {"N":0, "S":1, "W":2, "E":3}
+    moving = ((-1, 0), (1, 0), (0, -1), (0, 1)) #N / S / W / E
+    
+    N = len(park[0])
+    M = len(park)
+    parkMap = list([0]*N for _ in range(M))
+    
+    now = [0, 0] #현재 위치
+    
+    for j in range(M):
+        for i in range(N):
+            if park[j][i] != 'X':
+                if park[j][i] == 'S':
+                    now = [j, i]
+                parkMap[j][i] = 1
+
+    for route in routes:
+        d, l = list(route.split())
+        l = int(l)
+        
+        if not check_boundary(now, direction[d], l): continue
+        if check_moving(now, direction[d], l) == True:
+            now = move(now, direction[d], l)
+
+    return now

@@ -1,0 +1,36 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/49191
+
+def solution(n, results):
+    answer = 0
+    
+    rel = [[0] * (n) for _ in range(n)]
+    
+    for i in range(n):
+        rel[i][i] = 2
+
+    # 바로 알 수 있는 경우 추가(result)
+    # win: 1 / lose: -1 / unknown: 0
+    for result in results:
+        rel[result[0]-1][result[1]-1] = 1
+        rel[result[1]-1][result[0]-1] = -1
+        
+    # 간접적으로 알 수 있는 경우 추가
+    for k in range(n):
+        for j in range(n):
+            for i in range(n):
+                if rel[i][j] == 0:
+                    if rel[i][k]==1 and rel[k][j]==1:
+                        rel[i][j] = 1
+                        rel[j][i] = -1
+    
+    # unknown이 있을 시 False
+    for records in rel:
+        is_know = True
+        for record in records:
+            if record == 0:
+                is_know = False
+                break
+        
+        if is_know:
+            answer += 1
+    return answer
