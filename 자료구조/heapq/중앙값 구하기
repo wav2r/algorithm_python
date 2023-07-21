@@ -1,0 +1,32 @@
+# https://www.acmicpc.net/problem/2696
+import heapq
+
+T = int(input())
+
+for _ in range(T):
+    N = int(input())
+    nums=[]
+    number_input = True
+    while number_input:
+        nums = nums + list(map(int,input().split()))
+        if len(nums) >= N:
+            number_input = False
+
+    ans = []
+
+    print((N+1)//2)
+    ans.append(nums[0])
+    print(ans[0], end = ' ')
+    cnt = 1
+
+    for j in range(1, N, 2):
+        ans.append(nums[j])
+        ans.append(nums[j+1])
+        ans.sort()
+
+        if cnt == 10:
+            print()
+        print(ans[(j+1)//2], end = ' ')
+        cnt += 1
+    print()
+    

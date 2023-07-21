@@ -1,0 +1,41 @@
+# https://www.acmicpc.net/problem/1213
+    
+name = input()
+
+cnt = [ 0 for _ in range(26)]
+    
+for ch in name:
+    cnt[ord(ch)-ord('A')] += 1
+
+
+#홀수가 있는지 판단
+is_over_odd = False
+is_odd = '' #홀수개의 문자 저장
+
+for i in range(26):
+    if cnt[i]%2 == 1:
+        #첫번째 홀수
+        if not is_odd :
+            is_odd = chr(ord('A')+i)
+            cnt[i] -= 1
+            
+        #두번째 홀수
+        else:
+            print("I'm Sorry Hansoo")
+            is_over_odd = True
+            break
+
+
+#홀수개의 문자가 2개 이상
+if not is_over_odd:
+    for l in range(26):
+        for _ in range(cnt[l]//2):
+            print(chr(ord('A')+l), end='')
+
+    if is_odd:
+        print(is_odd, end = '')
+        
+    for l in range(25,-1, -1):
+        for _ in range(cnt[l]//2):
+            print(chr(ord('A')+l), end='')
+

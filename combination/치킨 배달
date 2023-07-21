@@ -1,0 +1,48 @@
+# https://www.acmicpc.net/problem/15686
+
+from itertools import combinations
+
+N, M = map(int, input().split())
+
+INF = 987654321
+mi = INF
+distance = 0
+
+house = []
+shop = []
+
+
+for y in range(N):
+    for x, val in enumerate(map(int, input().split())):
+        if val == 1: #집
+            house.append([x,y])
+        if val == 2: #치킨집
+            shop.append([x,y])
+
+distance_arr = []
+
+if len(shop) == M:
+    #폐업하는 치킨집이 없을 경우 예외처리
+    for h in house:
+        mi = INF
+        for s in shop:
+            d = abs(s[0]-h[0])+abs(s[1]-h[1])
+            if mi > d:
+                mi = d
+        distance += mi
+    distance_arr.append(distance)
+    
+else:
+    for comb in combinations(shop, M):
+        distance = 0
+        for h in house:
+            mi = INF
+            for s in comb:
+                d = abs(s[0]-h[0])+abs(s[1]-h[1])
+                if mi > d:
+                    mi = d
+            distance += mi
+        distance_arr.append(distance)
+
+        
+print(min(distance_arr))

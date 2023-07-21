@@ -1,0 +1,65 @@
+# https://www.acmicpc.net/problem/14503
+
+N, M = map(int, input().split())
+r, c, d = map(int, input().split())
+
+dy = (-1, 0, 1, 0)
+dx = (0, 1, 0, -1)
+
+board= [list(map(int, input().split())) for _ in range(N)]
+
+ans = 1
+
+#0: wall
+#1: empty area(not clean)  2: empty area(clean)
+def clean(y, x):
+    board[y][x] = 2
+
+#1 : 주변에 쓰레기 있음 # 0 : 없음
+def detect(y, x):
+    if x==0 or y == 0 or y == N-1 or x == M-1:
+        return
+    st = False
+    for k in range(4):
+        if board[y+dy[k]][x+dx[k]] == 0:
+            st = True
+    return st
+
+#반시계 방향으로 회전
+def rotate(d):
+    d -= 1
+    if d < 0:
+        d = 3
+    return d
+
+def move(y, x, d):
+    global ans
+    
+    ny = y + dy[d]
+    nx = x + dx[d]
+    if board[ny][nx] == 0:
+        board[ny][nx] = 2
+        ans += 1
+        return (ny, nx, d)
+    return (y, x, d)
+
+y, x = r, c
+st = True
+
+board[r][c] = 2
+
+while True:
+    while st:
+        d = rotate(d)
+        y, x, d = move(y, x, d)
+        st = detect(y, x)
+
+    y -= dy[d]
+    x -= dx[d]
+    st = detect(y, x)
+    
+    if board[y][x] == 1:
+        #작동종료
+        break
+        
+print(ans)
