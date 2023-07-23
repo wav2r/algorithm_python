@@ -1,0 +1,20 @@
+def solution(N, stages):
+    answer = []
+    fail = [0 for _ in range(N+1)] #실패한 비율
+    challenge = [0 for _ in range(N+1)] #도전한 비율
+    
+    
+    for stage in stages:
+        challenge[:stage:1] = map(lambda x: x+1, challenge[:stage:1])
+        fail[stage-1] += 1
+    
+    ratio = []
+    
+    for i in range(len(challenge)-1):
+        if challenge[i]:
+            ratio.append((i+1, (fail[i] / challenge[i])))
+        else:
+            ratio.append((i+1, 0))
+    ratio.sort(key = lambda x: x[1], reverse = True)
+
+    return list(map(lambda x: x[0], ratio))
