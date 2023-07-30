@@ -1,0 +1,26 @@
+#https://school.programmers.co.kr/learn/courses/30/lessons/136798
+
+def solution(number, limit, power):
+    '''
+    divisor_number(N) : 1~N까지의 약수의 갯수를 담은 배열을 return
+    (0번째 인덱스는 버리는 항)
+
+    2의 배수, 3의 배수, 4의 배수... 차례대로 +1을 하면 약수의 갯수가 된다
+    '''
+    result = 0
+    
+    def divisor_number(N):
+        temp = [1 for i in range(N+1)]
+        for i in range(2, N+2):
+            for idx in range(i, N+1,i):
+                temp[idx] += 1
+        return temp
+    
+    atk_list = divisor_number(number)[1::]
+
+    for atk in atk_list:
+        if atk > limit:
+            result += power
+        else:
+            result += atk
+    return result
