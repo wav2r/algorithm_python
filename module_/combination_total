@@ -1,0 +1,17 @@
+'''
+    특정한 total값, 나누려는 갯수 div가 주어졌을 때
+    total을 나눌 수 있는 경우를 반환
+
+    example input : comb(5, 3, [], [])
+     -> output : [[1, 1, 3], [1, 2, 2], [1, 3, 1], [2, 1, 2], [2, 2, 1], [3, 1, 1]]
+'''
+def combination_total(total, div):
+        def comb(total, div, path):
+            if div == 1:
+                answer.append(path + [total])
+                return 0
+            for i in range(1, total-div+2):
+                comb(total - i, div - 1, path + [i])
+        answer = []
+        comb(total, div, [])
+        return answer
