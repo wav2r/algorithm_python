@@ -3,7 +3,6 @@
 def solution(k, n, reqs):
     from queue import PriorityQueue
     
-    # 상담원을 분배하는 case들을 구하여 return
     def combination_total(total, div):
         def comb(total, div, path):
             if div == 1:
@@ -15,7 +14,6 @@ def solution(k, n, reqs):
         comb(total, div, [])
         return answer
     
-    # 해당 유형에 room명의 상담원이 있을 경우 몇 분의 waiting이 발생하는지 return
     def count_waiting(table, room):
         total_waiting = 0
         rooms = PriorityQueue(maxsize=room)
@@ -23,9 +21,9 @@ def solution(k, n, reqs):
             rooms.put(0)
         for req in table:
             end_time = rooms.get() # 상담이 끝나 1개 이상의 자리가 생기는 시간
-            if req[0] > end_time: # 기다리는 시간 없음
+            if req[0] > end_time: # waiting 없음
                 rooms.put(req[1])
-            else: # 기다리는 시간 있음
+            else: # waiting 발생
                 waiting = end_time - req[0]
                 total_waiting += waiting
                 rooms.put(req[1] + waiting)
@@ -37,10 +35,17 @@ def solution(k, n, reqs):
         time_table[req[2]-1].append([req[0], req[0]+req[1]])
 
     result = 987654321
+    cache = [[0 for _ in range(n-k+1)] for _ in range(k)]
+    
+    for i in range(k):
+        for j in range(n-k+1):
+            #타입 i에 j+1명 배정
+            cache[i][j] = count_waiting(time_table[i], j + 1)
+
     for case in combination_total(n, k):
         temp = 0
         for i in range(k):
-            temp += count_waiting(time_table[i], case[i])
+            temp += cache[i][case[i]-1]
         result = min(result, temp)
     
     return result
