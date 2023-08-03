@@ -1,33 +1,33 @@
-# 시간 초과
+'''
+처음에 짠 방식처럼
+source(시작점)~destination(도착점) 까지 하나하나 구하지 않고
+BFS 알고리즘을 통해 미리 distance에 저장하고
+값을 추출하여 사용함
+'''
 
 def solution(n, roads, sources, destination):
     from collections import deque
-    
-    #bfs (연결된 노드에 대한 정보, 시작하는 지점)
-    def bfs(road_map, start):
-        chk = [False for _ in range(n+1)]
-        q = deque()
-        q.append([destination, chk, 0])
-        
-        while q:
-            now, chk, cnt = q.popleft()
-            
-            if now == start:
-                return cnt
-            for next_loc in road_map[now]:
 
-                
-                if not chk[next_loc]:
-                    chk[next_loc] = True
-                    q.append([next_loc, chk[:next_loc]+[True]+chk[next_loc+1:], cnt+1])
-        return -1
-    
     answer = []
     road_map = [[] for _ in range(n+1)]
+    chk = [False for _ in range(n+1)]
+    chk[destination] = True
+    distance = [-1 for _ in range(n+1)]
+    
     for road in roads:
         road_map[road[0]].append(road[1])
         road_map[road[1]].append(road[0])
     
-    for s in sources:
-        answer.append(bfs(road_map, s))
+    cnt = 0
+    q = deque()
+    q.append([destination, 0])
+    while q:
+        now, cnt = q.popleft()
+        distance[now] = cnt
+        for nxt in road_map[now]:
+            if not chk[nxt]:
+                q.append([nxt, cnt+1])
+                chk[nxt] = True
+    for source in sources:
+        answer.append(distance[source])
     return answer
