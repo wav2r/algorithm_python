@@ -1,0 +1,26 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/155651
+# 시작 시간 순으로 나열하여 최적 배치를 구함
+
+def solution(book_time):
+    def convert(time):
+        hour, minute = map(int, time.split(":"))
+        return hour * 60 + minute
+    
+    for i in range(len(book_time)):
+        book_time[i][0] = convert(book_time[i][0])
+        book_time[i][1] = convert(book_time[i][1]) + 10
+
+    book_time.sort()
+    
+    rooms = [0]
+    for time in book_time:
+        empty = False
+        for n, room in enumerate(rooms):
+            if room <= time[0]:
+                rooms[n] = time[1]
+                empty = True
+                break
+        if not empty:
+            rooms.append(time[1])
+
+    return len(rooms)
