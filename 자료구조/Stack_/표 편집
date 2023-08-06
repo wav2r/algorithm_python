@@ -1,0 +1,58 @@
+# 효율성 개선 필요
+# https://school.programmers.co.kr/learn/courses/30/lessons/81303#
+
+def solution(n, k, cmd):
+    
+    history = []
+    pointer = k # 0~n-1
+    table = [1 for _ in range(n)]
+    
+    for command in cmd:
+        if command[0] == 'D':
+            move = int(command.split(' ')[1])
+            
+            while move > 0:
+                pointer += 1
+                if pointer >= n:
+                    pointer -= n
+                if table[pointer]:
+                    move -= 1
+                
+        if command[0] == 'U':
+            move = int(command.split(' ')[1])
+            
+            while move > 0:
+                pointer -= 1
+                if pointer < 0:
+                    pointer += n
+                if table[pointer]:
+                    move -= 1
+            
+        if command[0] == 'C':
+            table[pointer] = 0
+            history.append(pointer)
+            
+            if sum(table[pointer+1:n]) > 0:
+                move = 1
+                while move > 0:
+                    pointer += 1
+                    if table[pointer]:
+                        move -= 1
+            else:
+                move = 1
+                while move > 0:
+                    pointer -= 1
+                    if table[pointer]:
+                        move -= 1
+                
+            
+        if command[0] == 'Z':
+            table[history.pop()] = 1
+            
+    answer = ''
+    for i in table:
+        if i:
+            answer += 'O'
+        else:
+            answer += 'X'
+    return answer
