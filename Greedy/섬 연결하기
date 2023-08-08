@@ -1,0 +1,28 @@
+# 풀이 중
+def solution(n, costs):
+    from collections import defaultdict
+    from collections import deque
+    answer = 987654321
+    bridge = defaultdict(list)
+    for cost in costs:
+        bridge[cost[0]+1].append([cost[1]+1, cost[2]])
+        bridge[cost[1]+1].append([cost[0]+1, cost[2]])
+
+    q = deque()
+    
+    for start in range(1, n+1):
+        chk = [False for _ in range(n+1)]
+        chk[start] = True
+        
+        q.clear()
+        q.append([start, 0, chk, 1])
+        
+        while q:
+            now, tot, chk, cnt = q.popleft()
+            for nxt, cost_nxt in bridge[now]:
+                if cnt == n:
+                    answer = min(answer, tot)
+                else:
+                    if not chk[nxt]:
+                        q.append([nxt, tot + cost_nxt, chk[0:nxt]+[True]+chk[nxt+1:], cnt + 1])
+    return answer
