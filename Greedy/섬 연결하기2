@@ -1,0 +1,31 @@
+#Kruskal 알고리즘
+'''
+초기 graphs = [0, 1, 2, 3]
+각각 0번 그래프, 1번 그래프, 2번 그래프, 3번 그래프를 의미함
+
+반복문: cost가 낮은 간선부터 탐색
+- node1, node2가 서로 다른 그래프일 경우 하나로 통합
+   > node2가 속한 그래프를 node1이 속한 그래프에 흡수시킴 (graphs의 값을 조정)
+- 해당 간선의 cost를 더함
+
+'''
+
+def solution(n, costs):
+    answer = 0
+    graphs = [n for n in range(n)]
+    cnt = 0
+    
+    costs.sort(key = lambda x: x[2])
+    
+    for node1, node2, cost in costs:
+        if graphs[node1] != graphs[node2]: #간선의 양 점이 서로 다른 그래프 집합일 때
+            temp = graphs[node2]
+            for i in range(n):
+                if graphs[i] == temp:
+                    graphs[i] = graphs[node1]
+            answer += cost
+            cnt += 1
+            if cnt == n-1: # 간선이 n-1개 연결되었을 때 종료
+                break 
+
+    return answer
