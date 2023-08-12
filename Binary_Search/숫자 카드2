@@ -1,0 +1,51 @@
+n = int(input())
+a = list(map(int,input().split()))
+m = int(input())
+x_list = list(map(int, input().split()))
+
+cnt_a = []
+a.sort()
+temp = a[0]
+cnt = 0
+number_list = [temp]
+
+for i in a:
+    if i == temp:
+        cnt += 1
+    else:
+        number_list.append(i)
+        cnt_a.append((temp, cnt))
+        cnt = 1
+        temp = i
+
+cnt_a.append((temp, cnt))   
+n = len(number_list)
+    
+for x in x_list:
+    answer = 0
+    
+    left = 0
+    right = n-1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if number_list[mid] > x:
+            if right != mid:
+                right = mid
+            else:
+                if number_list[left] == x:
+                    answer = cnt_a[left][1]
+                right = -1
+            continue
+        
+        if number_list[mid] < x:
+            if left != mid:
+                left = mid
+            else:
+                if number_list[right] == x:
+                    answer = cnt_a[right][1]
+                right = -1
+            continue
+        answer = cnt_a[mid][1]
+        right = -1
+    print(answer)
