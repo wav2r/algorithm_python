@@ -1,0 +1,15 @@
+# 위치 i에서 위 아래로 동일한 값의 숫자를 counting
+
+def counting_up_down(arr, element, i):
+    cnt = 1
+    temp = i
+    i = i - 1
+    
+    while i >= 0 and arr[i] == element:
+        i -= 1
+        cnt += 1
+    i = temp + 1
+    while i < n and arr[i] == element:
+        i += 1
+        cnt += 1
+    return cnt
