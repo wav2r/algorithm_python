@@ -11,26 +11,17 @@ for x in x_list:
     
     left = 0
     right = n-1
-
     while left <= right:
         mid = (left + right) // 2
         if a[mid] > x:
-            if right != mid:
-                right = mid
-            else:
-                if a[left] == x:
-                    answer = 1
-                right = -1
+            right = mid - 1
             continue
         
         if a[mid] < x:
-            if left != mid:
-                left = mid
-            else:
-                if a[right] == x:
-                    answer = 1
-                right = -1
+            left = mid + 1
             continue
-        answer = 1
-        right = -1
+
+        if a[mid] == x:
+            answer = 1
+            right = -1
     print(answer)
