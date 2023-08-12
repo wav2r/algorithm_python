@@ -3,49 +3,50 @@ a = list(map(int,input().split()))
 m = int(input())
 x_list = list(map(int, input().split()))
 
-cnt_a = []
-a.sort()
-temp = a[0]
-cnt = 0
-number_list = [temp]
+def count_arr(arr):
+    a.sort()
+    cnt_arr = []
+    temp = arr[0]
+    cnt = 0
 
-for i in a:
-    if i == temp:
-        cnt += 1
-    else:
-        number_list.append(i)
-        cnt_a.append((temp, cnt))
-        cnt = 1
-        temp = i
+    for i in a:
+        if i == temp:
+            cnt += 1
+        else:
+            cnt_arr.append((temp, cnt))
+            cnt = 1
+            temp = i
 
-cnt_a.append((temp, cnt))   
-n = len(number_list)
-    
+    cnt_arr.append((temp, cnt))   
+    return cnt_arr, len(cnt_arr)
+
+
+a, n = count_arr(a)
+
 for x in x_list:
     answer = 0
     
     left = 0
     right = n-1
-
     while left <= right:
         mid = (left + right) // 2
-        if number_list[mid] > x:
+        if a[mid][0] > x:
             if right != mid:
                 right = mid
             else:
-                if number_list[left] == x:
-                    answer = cnt_a[left][1]
+                if a[left][0] == x:
+                    answer = a[left][1]
                 right = -1
             continue
         
-        if number_list[mid] < x:
+        if a[mid][0] < x:
             if left != mid:
                 left = mid
             else:
-                if number_list[right] == x:
-                    answer = cnt_a[right][1]
+                if a[right][0] == x:
+                    answer = a[right][1]
                 right = -1
             continue
-        answer = cnt_a[mid][1]
+        answer = a[mid][1]
         right = -1
     print(answer)
