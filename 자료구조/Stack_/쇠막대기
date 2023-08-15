@@ -1,0 +1,22 @@
+#https://www.acmicpc.net/problem/10799
+
+data = input()
+rod = 0 #막대의 개수
+temp = 0
+answer = 0
+
+for i in range(len(data)):
+    if data[i] == '(':
+        rod += 1
+        temp = 1
+        
+    else: # case ')'
+        if temp == 1:
+            rod -= 1
+            temp = 0
+            answer += rod
+        else: #case '0'
+            rod -= 1
+            answer += 1
+
+print(answer)
