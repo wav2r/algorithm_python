@@ -1,28 +1,40 @@
-from collections import deque
+# https://www.acmicpc.net/problem/2839
+'''
+deque 사용 시 메모리 초과 발생 => 재귀구조로 변경
+import를 통한 RecursionError 해결
+case n=3을 고려하지 않아 발생한 indexError 해결
+'''
 
-n = int(input())
-cache = [0 for _ in range(n+1)]
-if n < 5:
-    if n == 3:
-        print(1)
+import sys
+sys.setrecursionlimit(10**7)
+
+def function(n):
+    def f(k):
+        if cache[k]:
+            return cache[k]
+        temp = f(k-5)
+        if temp > 0:
+            cache[k] = temp + 1
+            return cache[k]
+        
+        temp = f(k-3)
+        if temp > 0:
+            cache[k] = temp + 1
+            return cache[k]
+        return -1
+
+    cache = [0 for _ in range(n+1)]
+    
+    if n < 5:
+        if n == 3:
+            print(1)
+        else:
+            print(-1)
     else:
-        print(-1)
-else:
-    cache[5] = 1
-    cache[3] = 1
+        for i in range(5):
+            cache[i] = -1
+        cache[5] = 1
+        cache[3] = 1
+        print(f(n))
 
-q = deque()
-q.append((0, 0))
-while q:
-    val, cnt = q.popleft()
-    if cache[val]:
-        cache[val] = min(cache[val], cnt)
-    else:
-        cache[val] = cnt
-    if val + 3 <= n:
-        q.append((val + 3, cnt + 1))
-    if val + 5 <= n:
-        q.append((val + 5, cnt + 1))
-
-print(cache)
-print(cache[n])
+function(int(input()))
