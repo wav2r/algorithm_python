@@ -1,0 +1,28 @@
+from collections import deque
+
+n = int(input())
+cache = [0 for _ in range(n+1)]
+if n < 5:
+    if n == 3:
+        print(1)
+    else:
+        print(-1)
+else:
+    cache[5] = 1
+    cache[3] = 1
+
+q = deque()
+q.append((0, 0))
+while q:
+    val, cnt = q.popleft()
+    if cache[val]:
+        cache[val] = min(cache[val], cnt)
+    else:
+        cache[val] = cnt
+    if val + 3 <= n:
+        q.append((val + 3, cnt + 1))
+    if val + 5 <= n:
+        q.append((val + 5, cnt + 1))
+
+print(cache)
+print(cache[n])
