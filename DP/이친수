@@ -1,0 +1,19 @@
+#https://www.acmicpc.net/problem/2193
+'''
+x: 뒷자리가 0으로 끝나는 숫자
+y: 뒷자리가 1로 끝나는 숫자
+
+0은 x+y개의 숫자에 붙일 수 있다
+1은 0으로 끝나는 x개의 숫자에만 붙일 수 있다
+'''
+
+n = int(input())
+
+x, y = 1, 0
+
+for _ in range(n-2):
+    temp = x
+    x = x + y
+    y = temp
+
+print(x + y)
