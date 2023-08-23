@@ -1,5 +1,8 @@
-# 시간초과
-
+# https://www.acmicpc.net/problem/2178
+'''
+시간초과 문제 해결 -> 같은 ny,nx의 큐가 여러 개 삽입되는 과정을 확인
+-> map_info에 값을 대입하는 시점을 변경
+'''
 from collections import deque
 
 def valid_area(y, x):
@@ -16,23 +19,26 @@ for j in range(N):
 q = deque()
 q.append((0, 0, 1))
 
-while q:
+while map_info[N-1][M-1] == -1:
     ny, nx, d = q.popleft()
-    map_info[ny][nx] = d
-
+    
     if ny == N-1 and nx == M-1:
         break
     
     if valid_area(ny-1, nx) and map_info[ny-1][nx] == -1:
+        map_info[ny-1][nx] = d
         q.append((ny-1, nx, d+1))
         
     if valid_area(ny+1, nx) and map_info[ny+1][nx] == -1:
+        map_info[ny+1][nx] = d
         q.append((ny+1, nx, d+1))
         
     if valid_area(ny, nx+1) and map_info[ny][nx+1] == -1:
+        map_info[ny][nx+1] = d
         q.append((ny, nx+1, d+1))
         
     if valid_area(ny, nx-1) and map_info[ny][nx-1] == -1:
+        map_info[ny][nx-1] = d
         q.append((ny, nx-1, d+1))
 
-print(map_info[N-1][M-1])
+print(d+1)
