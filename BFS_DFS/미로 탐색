@@ -1,0 +1,38 @@
+# 시간초과
+
+from collections import deque
+
+def valid_area(y, x):
+    return y >= 0 and y <= N-1 and x >= 0 and x <= M-1
+
+N, M = list(map(int,input().split(' ')))
+map_info = [[0 for _ in range(M)] for _ in range(N)]
+for j in range(N):
+    line = input()
+    for i in range(M):
+        if line[i] == '1':
+            map_info[j][i] = -1
+
+q = deque()
+q.append((0, 0, 1))
+
+while q:
+    ny, nx, d = q.popleft()
+    map_info[ny][nx] = d
+
+    if ny == N-1 and nx == M-1:
+        break
+    
+    if valid_area(ny-1, nx) and map_info[ny-1][nx] == -1:
+        q.append((ny-1, nx, d+1))
+        
+    if valid_area(ny+1, nx) and map_info[ny+1][nx] == -1:
+        q.append((ny+1, nx, d+1))
+        
+    if valid_area(ny, nx+1) and map_info[ny][nx+1] == -1:
+        q.append((ny, nx+1, d+1))
+        
+    if valid_area(ny, nx-1) and map_info[ny][nx-1] == -1:
+        q.append((ny, nx-1, d+1))
+
+print(map_info[N-1][M-1])
