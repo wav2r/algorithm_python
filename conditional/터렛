@@ -1,0 +1,18 @@
+# https://www.acmicpc.net/problem/1002
+# 두 원 사이의 교점 갯수
+
+T = int(input())
+for _ in range(T):
+    x1, y1, r1, x2, y2, r2 = list(map(int,input().split(' ')))
+
+    dist = ((y2 - y1)**2 + (x2 - x1)**2) ** (1/2)
+    diff = r2 - r1 if r2 > r1 else r1 - r2
+
+    if dist == 0 and r1 == r2:
+        print(-1)
+    elif (dist > r1 + r2)or(dist < diff):
+        print(0)
+    elif (dist == r1 + r2)or(dist == diff):
+        print(1)
+    else:
+        print(2)
