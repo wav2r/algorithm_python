@@ -1,0 +1,22 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/118666
+
+def solution(survey, choices):
+    answer = ''
+
+    N = len(choices)
+    data = {'R':0, 'T':0, 'C':0, 'F':0, 'J': 0, 'M': 0,'A':0, 'N': 0}
+    
+    for i in range(N):
+        if choices[i] <= 3:
+            data[survey[i][0]] += (4-choices[i])
+        if choices[i] >= 5:
+            data[survey[i][1]] += (choices[i]-4)
+
+    matching = ['RT', 'CF', 'JM', 'AN']
+    for types in matching:
+        if data[types[0]] == data[types[1]]:
+            answer += types[0] if ord(types[0])< ord(types[1]) else types[1]
+        else:
+            answer += types[0] if data[types[0]]> data[types[1]] else types[1]
+            
+    return answer
