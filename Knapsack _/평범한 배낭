@@ -1,0 +1,15 @@
+#오답
+
+N, K = map(int, input().split())
+
+DP = [0 for _ in range(K+1)]
+
+for _ in range(N):
+    W, V = map(int, input().split())
+    if K >= W:
+        DP[W] = max(DP[W], V)
+        remain = K - W
+        for i in range(remain, 0, -1):
+            DP[W+i] = max(DP[W+i], DP[W] + DP[i])
+print(max(DP))
+            
