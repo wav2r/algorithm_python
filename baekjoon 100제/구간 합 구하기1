@@ -1,0 +1,17 @@
+# 구간 합 활용
+
+import sys
+input = sys.stdin.readline
+
+N, M = map(int, input().split(' '))
+num_arr = list(map(int, input().split(' ')))
+
+tmp = [0 for _ in range(N+1)]
+
+for i in range(N):
+    tmp[i+1] = tmp[i] + num_arr[i]
+    
+for _ in range(M):
+    start, end = map(int,input().split())
+    print(tmp[end] - tmp[start-1])
+
