@@ -1,0 +1,55 @@
+'''
+적용하는 개념: 합배열 / 나머지 연산
+
+아이디어 1
+1+5를 3으로 나눈 나머지는
+
+1을 3으로 나눈 나머지인 1,
+4를 3으로 나눈 나머지인 2
+
+1+2를 3으로 나눈 나머지와 같아진다
+
+아이디어 2
+합배열을 구하고 3으로 나누었을 때
+(end-start)= 구간의 합인데
+end지점과 start 지점의 값이 같다면 그 구간의 합은 3으로 나누어 떨어진다는 뜻이 된다.
+
+예시
+원본    [1, 2, 4, 5]
+합배열  [1, 3, 7, 12]
+%3 적용 [1, 0, 1, 0]
+
+0으로 값이 같은 i=1, 3을 살펴보면 (12-3)=9가 구간의 합이므로 3으로 나누어 떨어진다
+1로 값이 같은 i=0, 2를 살펴보면 (7-1)=6이 구간의 합이므로 3으로 나누어 떨어진다
+
++ 구간의 길이가 1일 때 3으로 나누어 떨어지는 경우도 더해야 한다.
+'''
+
+import sys
+input = sys.stdin.readline
+
+N, M = list(map(int, input().split(' ')))
+nums = list(map(int, input().split(' ')))
+
+answer = 0
+num_dict = {}
+
+for i in range(1, N):
+    nums[i] = (nums[i-1] + nums[i])
+
+for i in range(N):
+    nums[i] = nums[i] % M
+    if nums[i] == 0:
+        answer += 1
+
+    if nums[i] in num_dict:
+        num_dict[nums[i]] += 1
+    else:
+        num_dict[nums[i]] = 1
+        
+for n in num_dict.values():
+    if n > 1:
+        answer += (n * (n - 1)) // 2
+
+print(answer)
+
