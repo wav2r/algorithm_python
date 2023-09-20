@@ -1,19 +1,19 @@
 '''
 알고리즘: 슬라이딩 윈도우
 방법 1: 현재 문자의 개수와 필요한 문자의 개수를 비교하여 그때마다 true, false 여부를 체크함
+
+변경한 방법 2: 변경할 때 add한 문자와 remove한 문자의 증감량을 고려해서 is_valid(ACGT중 조건을 만족하는 문자 개수)를 조정함
+=> 시간복잡도 절약
+
 '''
 
 def answer_problem():
+
     code = 'ACGT'
-    
-    def is_valid():
-        for ch in code:
-            if tmp[ch] < need[ch]:
-                return False
-        return True
     
     N, l= list(map(int,input().split(' ')))
     dna = input()
+    
     
     A, C, G, T = list(map(int, input().split(' ')))
     need = {'A': A, 'C': C, 'G': G, 'T': T}
@@ -23,17 +23,31 @@ def answer_problem():
     for i in range(l):
         tmp[dna[i]] += 1
 
-    answer = 0 
+    answer = 0
+    is_valid= 0
+
+    for ch in code:
+        if tmp[ch] >= need[ch]:
+            is_valid += 1
     
     while end < N-1:
-        if is_valid():
+        if is_valid == 4:
             answer += 1
             
         start, end = start + 1, end + 1
-        tmp[dna[start]] -= 1
-        tmp[dna[end]] += 1
+        remove, add = dna[start], dna[end]
         
-    if is_valid():
+        tmp[remove] -= 1
+        #감소하여 조건을 만족하지 못하게 된 경우
+        if need[remove] - tmp[remove] == 1:
+            is_valid -= 1
+        
+        tmp[dna[end]] += 1
+        #증가하여 조건을 만족하게 된 경우
+        if tmp[add] - need[add] == 0:
+            is_valid += 1
+        
+    if is_valid == 4:
         answer += 1
 
     return answer
