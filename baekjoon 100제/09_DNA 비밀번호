@@ -1,0 +1,40 @@
+'''
+알고리즘: 슬라이딩 윈도우
+'''
+
+def answer_problem():
+    code = 'ACGT'
+    
+    def is_valid():
+        for ch in code:
+            if tmp[ch] < need[ch]:
+                return False
+        return True
+    
+    N, l= list(map(int,input().split(' ')))
+    dna = input()
+    
+    A, C, G, T = list(map(int, input().split(' ')))
+    need = {'A': A, 'C': C, 'G': G, 'T': T}
+    start, end = -1, l-1
+
+    tmp = {'A':0, 'C': 0, 'G': 0, 'T': 0} # 현재 ACGT의 개수
+    for i in range(l):
+        tmp[dna[i]] += 1
+
+    answer = 0 
+    
+    while end < N-1:
+        if is_valid():
+            answer += 1
+            
+        start, end = start + 1, end + 1
+        tmp[dna[start]] -= 1
+        tmp[dna[end]] += 1
+        
+    if is_valid():
+        answer += 1
+
+    return answer
+
+print(answer_problem())
