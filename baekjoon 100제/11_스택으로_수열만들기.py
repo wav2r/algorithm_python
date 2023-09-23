@@ -1,5 +1,8 @@
 # 1874 : Stack
 
+import sys
+input = sys.stdin.readline
+
 def answer_problem():
     N = int(input())
     
