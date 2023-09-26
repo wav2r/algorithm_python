@@ -1,0 +1,20 @@
+# 2164
+
+from collections import deque
+import sys
+input = sys.stdin.readline
+
+def answer_problem():
+    N = int(input())
+    queue = deque()
+    
+    for i in range(N):
+        queue.append(i+1)
+        
+    while len(queue) > 1:
+        queue.popleft()
+        queue.append(queue.popleft())
+    
+    return queue[0]
+
+print(answer_problem())
