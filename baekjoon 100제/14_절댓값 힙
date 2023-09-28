@@ -1,0 +1,25 @@
+# 11286
+
+from collections import deque
+from queue import PriorityQueue
+import sys
+
+input = sys.stdin.readline
+print = sys.stdout.write
+queue = PriorityQueue()
+
+def answer_problem():
+    N = int(input())
+    
+    for _ in range(N):
+        x = int(input())
+        if x == 0:
+            if queue.empty():
+                print('0\n')
+            else:
+                print(str(queue.get()[1])+'\n')
+        else:
+            queue.put((abs(x), x))
+            
+
+answer_problem()
