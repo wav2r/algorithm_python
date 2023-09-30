@@ -1,0 +1,19 @@
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+arr = []
+
+for i in range(N):
+    arr.append((int(input()), i))
+
+arr.sort()
+maxValue = 0
+
+for idx, value in enumerate(arr):
+    if maxValue <  value[1] - idx:
+        maxValue = value[1] - idx
+
+print(maxValue+1)
+
+
