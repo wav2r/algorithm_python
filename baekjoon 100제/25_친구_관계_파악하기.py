@@ -1,6 +1,6 @@
 # DFS - 재귀 방식
-# exit() 사용
-# 700ms
+# visited를 변경하는 시점을 변경
+# 1200ms
 
 import sys
 sys.setrecursionlimit(10000)
@@ -24,8 +24,7 @@ def dfs(now, count):
 
     if count == 4:
         answer = 1
-        print(1)
-        exit()
+        return
     
     visited[now] = True
     for next in edges[now]:
@@ -38,4 +37,7 @@ answer = 0
 for start in range(N):
     dfs(start, 0)
 
-print(0)
+    if answer:
+        break 
+
+print(answer)
