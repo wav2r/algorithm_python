@@ -1,43 +1,43 @@
-# DFS
-# 시간초과 발생
+# DFS - 재귀 방식
+# 1500ms
 
 import sys
 sys.setrecursionlimit(10000)
 input = sys.stdin.readline
-from collections import defaultdict;
 
 N, M = list(map(int, input().split()))
 
+visited = [False] * (N + 1)
+
 # input
-edges = list()
-edge_dict = defaultdict(set)
+edge_dict = [[] for _ in range(N)]
 
 for i in range(M):
     a, b = list(map(int, input().split()))
-    edges.append([a, b])
-    edge_dict[a].add(b)
-    edge_dict[b].add(a)
-
-def switch_ans():
-    global answer
-    answer = 1
+    edge_dict[a].append(b)
+    edge_dict[b].append(a)
 
 # dfs function
-def dfs(now, chk, count):
+def dfs(now, count):
+    global answer
+    
     if count == 4:
-        switch_ans()
+        answer = 1
         return
 
     for next in edge_dict[now]:
-        if chk[next]:
+        if visited[next]:
             continue
-
-        dfs(next, chk[:next] + [True] + chk[next+1:], count + 1)
+        visited[next] = True
+        dfs(next, count + 1)
+        visited[next] = False
 
 # main
 answer = 0
 for start in range(N):
-    dfs(start, [True]+[0 for _ in range(N-1)], 0)
+    visited[start] = True
+    dfs(start, 0)
+    visited[start] = False
 
     if answer == 1:
         break 
