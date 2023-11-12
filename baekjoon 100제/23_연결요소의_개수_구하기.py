@@ -1,7 +1,6 @@
 # DFS : queue 이용
 
 import sys
-sys.setrecursionlimit(10000)
 input = sys.stdin.readline
 from collections import defaultdict;
 from collections import deque;
