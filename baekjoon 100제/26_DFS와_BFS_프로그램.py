@@ -1,6 +1,4 @@
-# 기본적인 DFS, BFS 구현
-
-from collections import defaultdict, deque
+from collections import deque
 import sys
 sys.setrecursionlimit(10000)
 input = sys.stdin.readline
@@ -13,8 +11,8 @@ for i in range(M):
     edges[edge[0]].append(edge[1])
     edges[edge[1]].append(edge[0])
 
-for targets in edges:
-    targets.sort()
+for i in range(N+1):
+    edges[i].sort()
 
 visited = [True] + [False for i in range(N)]
 
@@ -26,7 +24,6 @@ def DFS(now):
             DFS(target)
 
 DFS(start)
-print()
 
 def BFS(start):
     q = deque()
@@ -39,7 +36,8 @@ def BFS(start):
             if not visited[target]:
                 visited[target] = True
                 q.append(target)
-            
-                
+        
+print()          
 visited = [True] + [False for i in range(N)]
 BFS(start)
+        
